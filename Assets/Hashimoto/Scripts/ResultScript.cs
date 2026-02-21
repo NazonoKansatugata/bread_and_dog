@@ -1,6 +1,7 @@
 using UnityEngine;
 using DG.Tweening;
 using UnityEngine.UI;
+using unityroom.Api;
 
 public class ResultScript : MonoBehaviour
 {
@@ -21,6 +22,7 @@ public class ResultScript : MonoBehaviour
             resultImage.DOScale(Vector3.one, 0.5f);
             isOpenResult = true;
             resultImage.Find("ResultScoreText").gameObject.GetComponent<Text>().text = GameManager.instance.score.ToString();
+            UnityroomApiClient.Instance.SendScore(1, GameManager.instance.score, ScoreboardWriteMode.HighScoreDesc);
         }
     }
 
