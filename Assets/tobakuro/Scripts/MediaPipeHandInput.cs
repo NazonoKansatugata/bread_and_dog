@@ -6,14 +6,13 @@ using UnityEngine;
 
 /// <summary>
 /// WebCam の映像を MediaPipe Hand Landmarker に渡し、
-/// 手の左右スワイプを検出して GameController に通知する。
-/// GameController は無改変のまま利用する。
+/// 手の左右スワイプを検出して TobakuroGameController に通知する。
 /// </summary>
 public class MediaPipeHandInput : MonoBehaviour
 {
     [Header("参照")]
-    [Tooltip("シーン内の GameController をアサインしてください")]
-    public GameController gameController;
+    [Tooltip("シーン内の TobakuroGameController をアサインしてください")]
+    public TobakuroGameController gameController;
 
     [Header("スワイプ判定")]
     [Tooltip("スワイプとみなす手首の移動量（0〜1 の正規化座標）")]
@@ -31,20 +30,10 @@ public class MediaPipeHandInput : MonoBehaviour
     private float _cooldownTimer = 0f;
     private bool _isRunning = false;
 
-    // GameController の private TrySort を呼ぶためのリフレクション
-    private System.Reflection.MethodInfo _trySortMethod;
-
     private enum SwipeDir { Left, Right }
 
     private IEnumerator Start()
     {
-        if (gameController != null)
-        {
-            _trySortMethod = typeof(GameController).GetMethod(
-                "TrySort",
-                System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
-        }
-
         yield return SetupWebCam();
         yield return SetupHandLandmarker();
 
@@ -65,15 +54,15 @@ public class MediaPipeHandInput : MonoBehaviour
 
     private IEnumerator SetupHandLandmarker()
     {
-        // StreamingAssets からモデルを準備する
-        // IResourceManager 経由で呼び出す必要がある
-        IResourceManager resourceManager = new StreamingAssetsResourceManager();
-        yield return resourceManager.PrepareAssetAsync("hand_landmarker.task");
-
-        // PrepareAssetAsync 後、モデルパスは persistentDataPath に展開される
+        // カスタムリゾルバーを有効化し、モデルファイルのパスを登録する
         var modelPath = System.IO.Path.Combine(
-            Application.persistentDataPath,
+            Application.streamingAssetsPath,
             "hand_landmarker.task");
+
+        Mediapipe.ResourceUtil.EnableCustomResolver();
+        Mediapipe.ResourceUtil.SetAssetPath("hand_landmarker.task", modelPath);
+
+        yield return null;
 
         var options = new HandLandmarkerOptions(
             baseOptions: new BaseOptions(
@@ -104,11 +93,9 @@ public class MediaPipeHandInput : MonoBehaviour
                 _cooldownTimer -= Time.deltaTime;
             }
 
-            // WebCam フレームを Texture2D にコピー
             _inputTexture.SetPixels32(_webCamTexture.GetPixels32());
             _inputTexture.Apply();
 
-            // Texture2D から Mediapipe.Image を作成
             using var image = new Mediapipe.Image(
                 Mediapipe.ImageFormat.Types.Format.Srgba,
                 _inputTexture);
@@ -126,7 +113,6 @@ public class MediaPipeHandInput : MonoBehaviour
             return;
         }
 
-        // 手首（Landmark index 0）の X 座標（0〜1 の正規化座標）
         var wristX = result.handLandmarks[0].landmarks[0].x;
 
         if (_prevWristX >= 0f && _cooldownTimer <= 0f)
@@ -148,12 +134,12 @@ public class MediaPipeHandInput : MonoBehaviour
 
     private void TriggerSort(SwipeDir dir)
     {
-        if (_trySortMethod == null || gameController == null) return;
+        if (gameController == null) return;
 
         _cooldownTimer = swipeCooldown;
 
         var targetType = dir == SwipeDir.Left ? SortableType.Corgi : SortableType.Bread;
-        _trySortMethod.Invoke(gameController, new object[] { targetType });
+        gameController.TrySort(targetType);
 
         Debug.Log($"[MediaPipeHandInput] Hand swipe {dir} → {targetType}");
     }
