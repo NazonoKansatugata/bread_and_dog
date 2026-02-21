@@ -168,12 +168,11 @@ public class GameController : MonoBehaviour
 
         if (gameManager.feverTimer > 0f)
         {
-            gameManager.score += Mathf.Max(0, baseScore) * 3;
+            gameManager.AddScore();
         }
         else
         {
-            gameManager.score += Mathf.Max(0, baseScore);
-            gameManager.combo += 1;
+            gameManager.AddScore();
         }
     }
 
