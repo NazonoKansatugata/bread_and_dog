@@ -14,7 +14,6 @@ public class GameManager : MonoBehaviour
     Image comboImage;
     [SerializeField] int maxCombo, TimeLimit, feverTime;
     [SerializeField] Sprite[] comboSprites = new Sprite[11];
-    GameObject
     public bool isStartGame, isResult;
 
     Image feverImage;
@@ -108,8 +107,8 @@ public class GameManager : MonoBehaviour
     }
     public void SetText()
     {
-        scoreText.text = score.ToString() + "‘K";
-        timerText.text = timer.ToString() + "•b";
+        scoreText.text = score.ToString() + "ï¿½K";
+        timerText.text = timer.ToString() + "ï¿½b";
         comboImage.sprite = comboSprites[combo];
         Debug.Log("Combo : " + combo);
         GameObject.Find("ComboText").GetComponent<Text>().text = combo.ToString();
