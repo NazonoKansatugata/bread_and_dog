@@ -12,6 +12,8 @@ public class TitleScript : MonoBehaviour
     private Vector2 swipeStart;
     private bool isSwipeTracking;
     private bool isStarted;
+    private Vector3 initialPosition;
+    private bool isHidden;
 
     private enum SwipeDirection
     {
@@ -26,6 +28,8 @@ public class TitleScript : MonoBehaviour
         {
             moveTarget = transform;
         }
+
+        initialPosition = moveTarget.position;
     }
 
     private void Update()
@@ -51,14 +55,20 @@ public class TitleScript : MonoBehaviour
         isStarted = true;
         if (moveTarget != null)
         {
-            moveTarget.DOMove(moveTarget.position + Vector3.up * moveDistance, moveDuration)
+            moveTarget.DOMove(initialPosition + Vector3.up * moveDistance, moveDuration)
                 .SetEase(moveEase)
-                .OnComplete(GameStart);
+                .OnComplete(OnTitleMoved);
         }
         else
         {
-            GameStart();
+            OnTitleMoved();
         }
+    }
+
+    private void OnTitleMoved()
+    {
+        GameStart();
+        HideTitle();
     }
 
     public void GameStart()
@@ -67,6 +77,43 @@ public class TitleScript : MonoBehaviour
         {
             GameManager.instance.StartTimer();
         }
+    }
+
+    private void HideTitle()
+    {
+        if (isHidden)
+        {
+            return;
+        }
+
+        isHidden = true;
+        enabled = false;
+        if (moveTarget != null)
+        {
+            moveTarget.gameObject.SetActive(false);
+        }
+        else
+        {
+            gameObject.SetActive(false);
+        }
+    }
+
+    public void ShowTitle()
+    {
+        if (moveTarget != null)
+        {
+            moveTarget.gameObject.SetActive(true);
+            moveTarget.position = initialPosition;
+            DOTween.Kill(moveTarget);
+        }
+        else
+        {
+            gameObject.SetActive(true);
+        }
+
+        isStarted = false;
+        isHidden = false;
+        enabled = true;
     }
 
     private SwipeDirection GetSwipeDirection()
