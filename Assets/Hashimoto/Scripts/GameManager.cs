@@ -14,8 +14,8 @@ public class GameManager : MonoBehaviour
     Image comboImage;
     [SerializeField] int maxCombo, TimeLimit, feverTime;
     [SerializeField] Sprite[] comboSprites = new Sprite[11];
-    GameObject
     public bool isStartGame, isResult;
+    GameObject resultCanvas;
 
     Image feverImage;
 
@@ -50,6 +50,7 @@ public class GameManager : MonoBehaviour
             if(isStartGame)
             {
                 isResult = true;
+                resultCanvas.SetActive(true);
             }
             timer = 0;
         }
@@ -72,6 +73,8 @@ public class GameManager : MonoBehaviour
     }
     public void ResetGame()
     {
+        resultCanvas = GameObject.Find("ResultCanvas");
+        resultCanvas.SetActive(false);
         scoreText = GameObject.Find("ScoreText").GetComponent<Text>();
         timerText = GameObject.Find("TimerText").GetComponent<Text>();
         comboImage = GameObject.Find("ComboImage").GetComponent<Image>();
