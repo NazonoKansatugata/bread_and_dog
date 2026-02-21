@@ -76,13 +76,13 @@ public class GameController : MonoBehaviour
         var swipe = GetSwipeDirection();
         if (swipe == SwipeDirection.Left)
         {
-            TrySort(SortableType.Corgi);
+            TrySort(SortableType.Bread);
             return;
         }
 
         if (swipe == SwipeDirection.Right)
         {
-            TrySort(SortableType.Bread);
+            TrySort(SortableType.Corgi);
             return;
         }
 
@@ -90,11 +90,11 @@ public class GameController : MonoBehaviour
         {
             if (GetLeftInput())
             {
-                TrySort(SortableType.Corgi);
+                TrySort(SortableType.Bread);
             }
             else if (GetRightInput())
             {
-                TrySort(SortableType.Bread);
+                TrySort(SortableType.Corgi);
             }
         }
     }
@@ -147,7 +147,7 @@ public class GameController : MonoBehaviour
             var removed = spawner.RemoveBottomAndShift();
             if (removed != null)
             {
-                var direction = targetType == SortableType.Corgi ? Vector2.left : Vector2.right;
+                var direction = targetType == SortableType.Bread ? Vector2.left : Vector2.right;
                 removed.PlaySortAndDespawn(direction, sortedMoveDistance, sortedMoveDuration);
             }
         }

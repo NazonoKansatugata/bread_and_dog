@@ -6,7 +6,7 @@ using unityroom.Api;
 public class ResultScript : MonoBehaviour
 {
     bool isOpenResult;
-    Transform resultImage;
+    RectTransform resultImage;
     public float minSwipeDistance = 80f;
     public TitleScript titleScript;
 
@@ -22,7 +22,7 @@ public class ResultScript : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        resultImage = transform.Find("ResultBackGround");
+        resultImage = transform.Find("ResultBackGround").GetComponent<RectTransform>();
         resultImage.localScale = Vector3.zero;
 
         if (titleScript == null)
@@ -38,7 +38,7 @@ public class ResultScript : MonoBehaviour
         {
             resultImage.DOScale(Vector3.one, 0.5f);
             isOpenResult = true;
-            resultImage.Find("ResultScoreText").gameObject.GetComponent<Text>().text = GameManager.instance.score.ToString();
+            resultImage.Find("ResultImage").Find("ResultScoreText").gameObject.GetComponent<Text>().text = GameManager.instance.score.ToString();
             UnityroomApiClient.Instance.SendScore(1, GameManager.instance.score, ScoreboardWriteMode.HighScoreDesc);
         }
 
