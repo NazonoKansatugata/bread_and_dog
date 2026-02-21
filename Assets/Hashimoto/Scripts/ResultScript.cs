@@ -37,6 +37,7 @@ public class ResultScript : MonoBehaviour
         {
             resultImage.DOScale(Vector3.one, 0.5f);
             isOpenResult = true;
+            isClosing = false;
             resultImage.Find("ResultScoreText").gameObject.GetComponent<Text>().text = GameManager.instance.score.ToString();
         }
 
