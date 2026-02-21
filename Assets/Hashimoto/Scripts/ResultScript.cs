@@ -1,5 +1,6 @@
 using UnityEngine;
 using DG.Tweening;
+using UnityEngine.UI;
 
 public class ResultScript : MonoBehaviour
 {
@@ -8,7 +9,7 @@ public class ResultScript : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        resultImage = transform.Find("ResultImage");
+        resultImage = transform.Find("ResultBackGround");
         resultImage.localScale = Vector3.zero;
     }
 
@@ -19,10 +20,11 @@ public class ResultScript : MonoBehaviour
         {
             resultImage.DOScale(Vector3.one, 0.5f);
             isOpenResult = true;
+            resultImage.Find("ResultScoreText").gameObject.GetComponent<Text>().text = GameManager.instance.score.ToString();
         }
     }
 
-    public void CloseReslt()
+    public void CloseResult()
     {
         resultImage.DOScale(Vector3.zero, 0.5f)
             .OnComplete(()=> GameManager.instance.ResetGame());

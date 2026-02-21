@@ -57,7 +57,7 @@ public class GameManager : MonoBehaviour
         if (feverTimer > 0)
         {
             feverTimer -= Time.deltaTime;
-            feverImage.color = Color.red;
+            feverImage.color = new Color(1,0,0,0.1f);
         }
         else
         {
@@ -111,8 +111,8 @@ public class GameManager : MonoBehaviour
     }
     public void SetText()
     {
-        scoreText.text = score.ToString() + "�K";
-        timerText.text = timer.ToString() + "�b";
+        scoreText.text = score.ToString() + "銭";
+        timerText.text = (Mathf.Round(timer * 10f) / 10f).ToString("F1") + "秒";
         comboImage.sprite = comboSprites[combo];
         Debug.Log("Combo : " + combo);
         GameObject.Find("ComboText").GetComponent<Text>().text = combo.ToString();
