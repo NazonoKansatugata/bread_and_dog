@@ -9,6 +9,7 @@ public class ResultScript : MonoBehaviour
     RectTransform resultImage;
     public float minSwipeDistance = 80f;
     public TitleScript titleScript;
+    public GameController gameController;
 
     private Vector2 swipeStart;
     private bool isSwipeTracking;
@@ -19,7 +20,7 @@ public class ResultScript : MonoBehaviour
         None,
         Up
     }
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+
     void Start()
     {
         resultImage = transform.Find("ResultBackGround").GetComponent<RectTransform>();
@@ -31,16 +32,32 @@ public class ResultScript : MonoBehaviour
         }
     }
 
-    // Update is called once per frame
     void Update()
     {
         if (GameManager.instance.isResult && !isOpenResult)
         {
-            resultImage.DOAnchorPos(Vector2.zero, 0.5f).SetEase(Ease.OutCubic);
+            if (gameController != null && gameController.bgmAudioSource != null)
+            {
+                gameController.bgmAudioSource.Stop();
+            }
+
             isOpenResult = true;
-            resultImage.Find("ResultImage").Find("ResultScoreText").gameObject.GetComponent<Text>().text = GameManager.instance.score.ToString();
             isClosing = false;
+            resultImage.Find("ResultImage").Find("ResultScoreText").gameObject.GetComponent<Text>().text = GameManager.instance.score.ToString();
             UnityroomApiClient.Instance.SendScore(1, GameManager.instance.score, ScoreboardWriteMode.HighScoreDesc);
+
+            GameManager.instance.score = 0;
+            GameManager.instance.timer = 0;
+            GameManager.instance.combo = 0;
+
+            resultImage.DOAnchorPos(Vector2.zero, 2.5f).SetEase(Ease.OutCubic)
+                .OnComplete(() =>
+                {
+                    if (titleScript != null)
+                    {
+                        titleScript.ShowTitle();
+                    }
+                });
         }
 
         if (isOpenResult && !isClosing)
@@ -61,15 +78,11 @@ public class ResultScript : MonoBehaviour
         }
 
         isClosing = true;
-        resultImage.DOAnchorPos(new Vector2(0f, 960f), 0.5f)
-            .SetEase(Ease.OutCubic)
+        resultImage.DOAnchorPos(new Vector2(0f, 960f), 2.5f)
+            .SetEase(Ease.OutBounce)
             .OnComplete(() =>
             {
                 GameManager.instance.ResetGame();
-                if (titleScript != null)
-                {
-                    titleScript.ShowTitle();
-                }
             });
         isOpenResult = false;
         GameManager.instance.isResult = false;
