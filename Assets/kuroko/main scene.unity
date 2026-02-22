@@ -3130,7 +3130,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   minSwipeDistance: 80
-  titleScript: {fileID: 0}
+  titleScript: {fileID: 209444858}
 --- !u!224 &1645494364
 RectTransform:
   m_ObjectHideFlags: 0
