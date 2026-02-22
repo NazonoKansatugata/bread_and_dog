@@ -23,7 +23,7 @@ public class ResultScript : MonoBehaviour
     void Start()
     {
         resultImage = transform.Find("ResultBackGround").GetComponent<RectTransform>();
-        resultImage.localScale = Vector3.zero;
+        resultImage.anchoredPosition = new Vector2(0f, 960f);
 
         if (titleScript == null)
         {
@@ -36,7 +36,7 @@ public class ResultScript : MonoBehaviour
     {
         if (GameManager.instance.isResult && !isOpenResult)
         {
-            resultImage.DOScale(Vector3.one, 0.5f);
+            resultImage.DOAnchorPos(Vector2.zero, 0.5f).SetEase(Ease.OutCubic);
             isOpenResult = true;
             resultImage.Find("ResultImage").Find("ResultScoreText").gameObject.GetComponent<Text>().text = GameManager.instance.score.ToString();
             isClosing = false;
@@ -61,7 +61,8 @@ public class ResultScript : MonoBehaviour
         }
 
         isClosing = true;
-        resultImage.DOScale(Vector3.zero, 0.5f)
+        resultImage.DOAnchorPos(new Vector2(0f, 960f), 0.5f)
+            .SetEase(Ease.OutCubic)
             .OnComplete(() =>
             {
                 GameManager.instance.ResetGame();
