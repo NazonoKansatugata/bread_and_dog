@@ -76,9 +76,9 @@ public class ItemSpawner : MonoBehaviour
 
         for (var i = 0; i < slotItems.Length; i++)
         {
-            slotItems[i].gameObject.GetComponent<Renderer>().sortingOrder = i;
             if (slotItems[i] != null)
             {
+                slotItems[i].gameObject.GetComponent<Renderer>().sortingOrder = i;
                 continue;
             }
 
@@ -100,7 +100,6 @@ public class ItemSpawner : MonoBehaviour
 
     public SortableItem RemoveBottomAndShift()
     {
-        GameObject.Find("BeltConveyor").GetComponent<Animator>().SetTrigger("BeltConveyor");
         if (slotItems == null || slotItems.Length == 0)
         {
             return null;
@@ -108,6 +107,22 @@ public class ItemSpawner : MonoBehaviour
 
         var lastIndex = slotItems.Length - 1;
         var removed = slotItems[lastIndex];
+        
+        StartCoroutine(RemoveBottomAndShiftDelayed());
+        
+        return removed;
+    }
+
+    private IEnumerator RemoveBottomAndShiftDelayed()
+    {
+        yield return new WaitForSeconds(0.3f);
+
+        if (slotItems == null || slotItems.Length == 0)
+        {
+            yield break;
+        }
+
+        var lastIndex = slotItems.Length - 1;
         slotItems[lastIndex] = null;
 
         for (var i = lastIndex - 1; i >= 0; i--)
@@ -119,7 +134,16 @@ public class ItemSpawner : MonoBehaviour
         ApplySlotTransforms();
         UpdateSortableFlags();
         FillEmptySlots();
-        return removed;
+
+        var beltConveyor = GameObject.Find("BeltConveyor");
+        if (beltConveyor != null)
+        {
+            var animator = beltConveyor.GetComponent<Animator>();
+            if (animator != null)
+            {
+                animator.SetTrigger("BeltConveyor");
+            }
+        }
     }
 
     private void InitializeSlots()
