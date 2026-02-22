@@ -4,7 +4,8 @@ using UnityEngine;
 public enum SortableType
 {
     Corgi,
-    Bread
+    Bread,
+    Mixed
 }
 
 public class SortableItem : MonoBehaviour
