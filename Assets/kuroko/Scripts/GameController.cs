@@ -11,6 +11,9 @@ public class GameController : MonoBehaviour
     public KeyCode rightKey = KeyCode.RightArrow;
     public KeyCode leftKeyAlt = KeyCode.A;
     public KeyCode rightKeyAlt = KeyCode.D;
+
+    [Header("Wrong Swipe Animation")]
+    public float wrongMoveDuration = 0.3f;
     public float wrongInputLockSeconds = 1f;
     public float minSwipeDistance = 60f;
     public float sortedMoveDistance = 2f;
@@ -30,7 +33,8 @@ public class GameController : MonoBehaviour
     {
         None,
         Left,
-        Right
+        Right,
+        Down
     }
 
     private void Awake()
@@ -83,6 +87,12 @@ public class GameController : MonoBehaviour
         if (swipe == SwipeDirection.Right)
         {
             TrySort(SortableType.Corgi);
+            return;
+        }
+
+        if (swipe == SwipeDirection.Down)
+        {
+            TrySort(SortableType.Mixed);
             return;
         }
 
@@ -147,7 +157,7 @@ public class GameController : MonoBehaviour
             var removed = spawner.RemoveBottomAndShift();
             if (removed != null)
             {
-                var direction = targetType == SortableType.Bread ? Vector2.left : Vector2.right;
+                var direction = targetType == SortableType.Bread ? Vector2.left : (targetType == SortableType.Corgi ? Vector2.right : Vector2.down);
                 removed.PlaySortAndDespawn(direction, sortedMoveDistance, sortedMoveDuration);
             }
         }
@@ -156,6 +166,14 @@ public class GameController : MonoBehaviour
             Debug.Log($"Sort Fail: expected {targetType}, got {item.itemType}");
             gameManager.Miss(true);
             inputLockTimer = wrongInputLockSeconds;
+
+            item.MarkSorted();
+            var removed = spawner.RemoveBottomAndShift();
+            if (removed != null)
+            {
+                var direction = targetType == SortableType.Bread ? Vector2.left : (targetType == SortableType.Corgi ? Vector2.right : Vector2.down);
+                removed.PlaySortAndDespawn(direction, sortedMoveDistance, wrongMoveDuration);
+            }
         }
     }
 
@@ -231,11 +249,21 @@ public class GameController : MonoBehaviour
     private SwipeDirection EvaluateSwipe(Vector2 endPosition)
     {
         var delta = endPosition - swipeStart;
-        if (Mathf.Abs(delta.x) < minSwipeDistance || Mathf.Abs(delta.x) < Mathf.Abs(delta.y))
+        var absDeltaX = Mathf.Abs(delta.x);
+        var absDeltaY = Mathf.Abs(delta.y);
+
+        if (Mathf.Max(absDeltaX, absDeltaY) < minSwipeDistance)
         {
             return SwipeDirection.None;
         }
 
-        return delta.x > 0f ? SwipeDirection.Right : SwipeDirection.Left;
+        if (absDeltaX > absDeltaY)
+        {
+            return delta.x > 0f ? SwipeDirection.Right : SwipeDirection.Left;
+        }
+        else
+        {
+            return delta.y < 0f ? SwipeDirection.Down : SwipeDirection.None;
+        }
     }
 }
