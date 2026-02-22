@@ -40,9 +40,7 @@ public class ItemSpawner : MonoBehaviour
             spawnRoutine = null;
         }
 
-        // 古いアイテムをクリア
-        ClearAllItems();
-        
+        // 既存のアイテムを保持したまま初期化
         InitializeSlots();
         FillEmptySlots();
         spawnRoutine = StartCoroutine(SpawnLoop());
