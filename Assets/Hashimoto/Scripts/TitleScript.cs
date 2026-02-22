@@ -74,14 +74,14 @@ public class TitleScript : MonoBehaviour
 
     public void GameStart()
     {
-        if (GameManager.instance != null)
-        {
-            GameManager.instance.StartTimer();
-        }
-
         if (gameController != null)
         {
-            gameController.PlayBGM();
+            // GameController の StartGameInternal を呼び出す
+            gameController.StartGameInternal();
+        }
+        else if (GameManager.instance != null)
+        {
+            GameManager.instance.StartTimer();
         }
     }
 
