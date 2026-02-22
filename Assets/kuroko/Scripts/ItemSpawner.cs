@@ -4,8 +4,9 @@ using UnityEngine;
 public class ItemSpawner : MonoBehaviour
 {
     public GameObject[] itemPrefabs;
+    public GameObject[] feverItemPrefabs;
     public Transform[] slots;
-    public int slotCount = 10;
+    public int slotCount = 8;
     public Transform slotRoot;
     public Vector2 slotSpacing = new Vector2(0f, -1f);
     public float spawnInterval = 1f;
@@ -226,22 +227,25 @@ public class ItemSpawner : MonoBehaviour
 
     private GameObject SelectRandomPrefab()
     {
-        if (itemPrefabs.Length <= 1)
+        bool isInFever = GameManager.instance != null && GameManager.instance.feverTimer > 0;
+        GameObject[] prefabsToUse = isInFever && feverItemPrefabs.Length > 0 ? feverItemPrefabs : itemPrefabs;
+
+        if (prefabsToUse.Length <= 1)
         {
-            return itemPrefabs[0];
+            return prefabsToUse[0];
         }
 
-        var normalCount = Mathf.Clamp(normalItemCount, 0, itemPrefabs.Length);
-        var mixedCount = itemPrefabs.Length - normalCount;
+        var normalCount = Mathf.Clamp(normalItemCount, 0, prefabsToUse.Length);
+        var mixedCount = prefabsToUse.Length - normalCount;
         var hasMixed = mixedCount > 0;
 
         if (hasMixed && Random.value < mixedSpawnChance)
         {
             var mixedIndex = normalCount + Random.Range(0, mixedCount);
-            return itemPrefabs[mixedIndex];
+            return prefabsToUse[mixedIndex];
         }
 
-        return normalCount > 0 ? itemPrefabs[Random.Range(0, normalCount)] : itemPrefabs[0];
+        return normalCount > 0 ? prefabsToUse[Random.Range(0, normalCount)] : prefabsToUse[0];
     }
 
     private void FillEmptySlots()
