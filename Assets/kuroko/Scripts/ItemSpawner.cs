@@ -76,9 +76,9 @@ public class ItemSpawner : MonoBehaviour
 
         for (var i = 0; i < slotItems.Length; i++)
         {
-            slotItems[i].gameObject.GetComponent<Renderer>().sortingOrder = i;
             if (slotItems[i] != null)
             {
+                slotItems[i].gameObject.GetComponent<Renderer>().sortingOrder = i;
                 continue;
             }
 
@@ -107,6 +107,22 @@ public class ItemSpawner : MonoBehaviour
 
         var lastIndex = slotItems.Length - 1;
         var removed = slotItems[lastIndex];
+        
+        StartCoroutine(RemoveBottomAndShiftDelayed());
+        
+        return removed;
+    }
+
+    private IEnumerator RemoveBottomAndShiftDelayed()
+    {
+        yield return new WaitForSeconds(0.3f);
+
+        if (slotItems == null || slotItems.Length == 0)
+        {
+            yield break;
+        }
+
+        var lastIndex = slotItems.Length - 1;
         slotItems[lastIndex] = null;
 
         for (var i = lastIndex - 1; i >= 0; i--)
@@ -118,7 +134,16 @@ public class ItemSpawner : MonoBehaviour
         ApplySlotTransforms();
         UpdateSortableFlags();
         FillEmptySlots();
-        return removed;
+
+        var beltConveyor = GameObject.Find("BeltConveyor");
+        if (beltConveyor != null)
+        {
+            var animator = beltConveyor.GetComponent<Animator>();
+            if (animator != null)
+            {
+                animator.SetTrigger("BeltConveyor");
+            }
+        }
     }
 
     private void InitializeSlots()
@@ -154,7 +179,8 @@ public class ItemSpawner : MonoBehaviour
 
             var slot = new GameObject($"Slot_{i}").transform;
             slot.SetParent(root, false);
-            slot.localPosition = new Vector3(slotSpacing.x * i, slotSpacing.y * i, 0f);
+            slot.localPosition = new Vector3(slotSpacing.x * i, slotSpacing.y * 12 * Mathf.Pow(0.8f, (slots.Length - i)), 0f);
+            slot.localScale = Vector3.one * 1.5f * Mathf.Pow(0.8f, slots.Length - i);
             slots[i] = slot;
         }
 
