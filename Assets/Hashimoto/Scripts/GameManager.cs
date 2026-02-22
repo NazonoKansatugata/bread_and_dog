@@ -14,6 +14,8 @@ public class GameManager : MonoBehaviour
     Image comboImage;
     [SerializeField] int maxCombo, TimeLimit, feverTime;
     [SerializeField] Sprite[] comboSprites = new Sprite[11];
+    [SerializeField] GameObject plusTextPrefab;
+    [SerializeField] Transform scoreBack;
     public bool isStartGame, isResult;
     GameObject resultCanvas;
 
@@ -91,10 +93,12 @@ public class GameManager : MonoBehaviour
             {
                 score += 1;
                 combo += 1;
+                Instantiate(plusTextPrefab, scoreBack.position + new Vector3(0.5f ,-1, 0), Quaternion.identity, scoreBack).GetComponent<Text>().text = "+1";
             }
             else if (feverTimer > 0)
             {
                 score += 3;
+                Instantiate(plusTextPrefab, scoreBack.position + new Vector3(0.5f, -1, 0), Quaternion.identity, scoreBack).GetComponent<Text>().text = "+3";
             }
         }
     }
@@ -111,8 +115,8 @@ public class GameManager : MonoBehaviour
     }
     public void SetText()
     {
-        scoreText.text = score.ToString() + "銭";
-        timerText.text = (Mathf.Round(timer * 10f) / 10f).ToString("F1") + "秒";
+        scoreText.text = score.ToString();
+        timerText.text = (Mathf.Round(timer * 10f) / 10f).ToString("F1");
         comboImage.sprite = comboSprites[combo];
         GameObject.Find("ComboText").GetComponent<Text>().text = combo.ToString();
     }
