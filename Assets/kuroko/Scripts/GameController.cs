@@ -160,6 +160,11 @@ public class GameController : MonoBehaviour
 
     private void StartGame()
     {
+        StartGameInternal();
+    }
+
+    public void StartGameInternal()
+    {
         if (gameManager != null)
         {
             gameManager.StartTimer();

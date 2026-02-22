@@ -89,6 +89,9 @@ public class GameManager : MonoBehaviour
         score = 0;
         timer = 0;
         combo = 0;
+        feverTimer = 0;
+        isStartGame = false;
+        isResult = false;
         SetText();
     }
     public void AddScore()
