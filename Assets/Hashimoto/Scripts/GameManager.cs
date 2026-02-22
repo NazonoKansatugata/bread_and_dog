@@ -59,7 +59,6 @@ public class GameManager : MonoBehaviour
         if (feverTimer > 0)
         {
             feverTimer -= Time.deltaTime;
-            feverImage.color = new Color(1,0,0,0.1f);
             if (feverObject != null)
             {
                 feverObject.SetActive(true);
@@ -67,7 +66,8 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            feverTimer = 0
+            feverTimer = 0;
+            if (feverObject != null)
             {
                 feverObject.SetActive(false);
             }
