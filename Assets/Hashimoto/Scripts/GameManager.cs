@@ -118,6 +118,6 @@ public class GameManager : MonoBehaviour
         scoreText.text = score.ToString();
         timerText.text = (Mathf.Round(timer * 10f) / 10f).ToString("F1");
         comboImage.sprite = comboSprites[combo];
-        GameObject.Find("ComboText").GetComponent<Text>().text = combo.ToString();
+        //GameObject.Find("ComboText").GetComponent<Text>().text = combo.ToString();
     }
 }

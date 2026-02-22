@@ -100,6 +100,7 @@ public class ItemSpawner : MonoBehaviour
 
     public SortableItem RemoveBottomAndShift()
     {
+        GameObject.Find("BeltConveyor").GetComponent<Animator>().SetTrigger("BeltConveyor");
         if (slotItems == null || slotItems.Length == 0)
         {
             return null;
@@ -154,7 +155,8 @@ public class ItemSpawner : MonoBehaviour
 
             var slot = new GameObject($"Slot_{i}").transform;
             slot.SetParent(root, false);
-            slot.localPosition = new Vector3(slotSpacing.x * i, slotSpacing.y * i, 0f);
+            slot.localPosition = new Vector3(slotSpacing.x * i, slotSpacing.y * 12 * Mathf.Pow(0.8f, (slots.Length - i)), 0f);
+            slot.localScale = Vector3.one * 1.5f * Mathf.Pow(0.8f, slots.Length - i);
             slots[i] = slot;
         }
 
