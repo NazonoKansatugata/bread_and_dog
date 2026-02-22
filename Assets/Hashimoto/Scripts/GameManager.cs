@@ -19,7 +19,7 @@ public class GameManager : MonoBehaviour
     public bool isStartGame, isResult;
     GameObject resultCanvas;
 
-    Image feverImage;
+    GameObject feverObject;
 
     private void Awake()
     {
@@ -36,7 +36,7 @@ public class GameManager : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        feverImage = GameObject.Find("FeverImage").GetComponent<Image>();
+        feverObject = GameObject.Find("Fiver_corgi_L");
         ResetGame();
     }
 
@@ -59,12 +59,18 @@ public class GameManager : MonoBehaviour
         if (feverTimer > 0)
         {
             feverTimer -= Time.deltaTime;
-            feverImage.color = new Color(1,0,0,0.1f);
+            if (feverObject != null)
+            {
+                feverObject.SetActive(true);
+            }
         }
         else
         {
             feverTimer = 0;
-            feverImage.color = new Color(0, 0, 0, 0);
+            if (feverObject != null)
+            {
+                feverObject.SetActive(false);
+            }
         }
         if (combo == maxCombo)
         {
