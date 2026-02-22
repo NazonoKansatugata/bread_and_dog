@@ -78,7 +78,8 @@ public class ItemSpawner : MonoBehaviour
     {
         while (true)
         {
-            SpawnOne();
+            // 常に空きスロットを埋める
+            FillEmptySlots();
             yield return new WaitForSeconds(spawnInterval);
         }
     }
@@ -136,7 +137,7 @@ public class ItemSpawner : MonoBehaviour
 
     private IEnumerator RemoveBottomAndShiftDelayed()
     {
-        yield return new WaitForSeconds(0.3f);
+        yield return new WaitForSeconds(0.1f);
 
         if (slotItems == null || slotItems.Length == 0)
         {
