@@ -10,6 +10,9 @@ public class ItemSpawner : MonoBehaviour
     public Vector2 slotSpacing = new Vector2(0f, -1f);
     public float spawnInterval = 1f;
     public bool autoStart;
+    public int normalItemCount = 2;
+    [Range(0f, 1f)]
+    public float mixedSpawnChance = 0.15f;
 
     private Coroutine spawnRoutine;
     private SortableItem[] slotItems;
@@ -73,6 +76,7 @@ public class ItemSpawner : MonoBehaviour
 
         for (var i = 0; i < slotItems.Length; i++)
         {
+            slotItems[i].gameObject.GetComponent<Renderer>().sortingOrder = i;
             if (slotItems[i] != null)
             {
                 continue;
@@ -182,7 +186,7 @@ public class ItemSpawner : MonoBehaviour
             return;
         }
 
-        var prefab = itemPrefabs[Random.Range(0, itemPrefabs.Length)];
+        var prefab = SelectRandomPrefab();
         var instance = Instantiate(prefab, slots[slotIndex].position, slots[slotIndex].rotation);
         var item = instance.GetComponentInParent<SortableItem>();
         if (item == null)
@@ -192,6 +196,26 @@ public class ItemSpawner : MonoBehaviour
         }
 
         PlaceInSlot(slotIndex, item);
+    }
+
+    private GameObject SelectRandomPrefab()
+    {
+        if (itemPrefabs.Length <= 1)
+        {
+            return itemPrefabs[0];
+        }
+
+        var normalCount = Mathf.Clamp(normalItemCount, 0, itemPrefabs.Length);
+        var mixedCount = itemPrefabs.Length - normalCount;
+        var hasMixed = mixedCount > 0;
+
+        if (hasMixed && Random.value < mixedSpawnChance)
+        {
+            var mixedIndex = normalCount + Random.Range(0, mixedCount);
+            return itemPrefabs[mixedIndex];
+        }
+
+        return normalCount > 0 ? itemPrefabs[Random.Range(0, normalCount)] : itemPrefabs[0];
     }
 
     private void FillEmptySlots()

@@ -4,7 +4,8 @@ using UnityEngine;
 public enum SortableType
 {
     Corgi,
-    Bread
+    Bread,
+    Mixed
 }
 
 public class SortableItem : MonoBehaviour
@@ -62,5 +63,32 @@ public class SortableItem : MonoBehaviour
         transform.DOMove(transform.position + offset, duration)
             .SetEase(Ease.OutQuad)
             .OnComplete(Despawn);
+    }
+
+    public void PlayWrongAndReturn(Vector2 direction, float distance, float duration, System.Action onComplete = null)
+    {
+        if (distance <= 0f || duration <= 0f)
+        {
+            onComplete?.Invoke();
+            return;
+        }
+
+        var startPos = transform.position;
+        var dir = direction.normalized;
+        var offset = new Vector3(dir.x, dir.y, 0f) * distance;
+        var wrongPos = startPos + offset;
+
+        transform.SetParent(null, true);
+        transform.DOMove(wrongPos, duration)
+            .SetEase(Ease.OutQuad)
+            .OnComplete(() =>
+            {
+                transform.DOMove(startPos, duration)
+                    .SetEase(Ease.OutQuad)
+                    .OnComplete(() =>
+                    {
+                        onComplete?.Invoke();
+                    });
+            });
     }
 }
