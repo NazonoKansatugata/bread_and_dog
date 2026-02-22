@@ -73,6 +73,7 @@ public class ItemSpawner : MonoBehaviour
 
         for (var i = 0; i < slotItems.Length; i++)
         {
+            slotItems[i].gameObject.GetComponent<Renderer>().sortingOrder = i;
             if (slotItems[i] != null)
             {
                 continue;
