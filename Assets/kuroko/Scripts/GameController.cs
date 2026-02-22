@@ -11,6 +11,9 @@ public class GameController : MonoBehaviour
     public KeyCode rightKey = KeyCode.RightArrow;
     public KeyCode leftKeyAlt = KeyCode.A;
     public KeyCode rightKeyAlt = KeyCode.D;
+
+    [Header("Wrong Swipe Animation")]
+    public float wrongMoveDuration = 0.3f;
     public float wrongInputLockSeconds = 1f;
     public float minSwipeDistance = 60f;
     public float sortedMoveDistance = 2f;
@@ -163,6 +166,14 @@ public class GameController : MonoBehaviour
             Debug.Log($"Sort Fail: expected {targetType}, got {item.itemType}");
             gameManager.Miss(true);
             inputLockTimer = wrongInputLockSeconds;
+
+            item.MarkSorted();
+            var removed = spawner.RemoveBottomAndShift();
+            if (removed != null)
+            {
+                var direction = targetType == SortableType.Bread ? Vector2.left : (targetType == SortableType.Corgi ? Vector2.right : Vector2.down);
+                removed.PlaySortAndDespawn(direction, sortedMoveDistance, wrongMoveDuration);
+            }
         }
     }
 
