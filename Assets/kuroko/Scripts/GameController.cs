@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class GameController : MonoBehaviour
@@ -29,11 +30,14 @@ public class GameController : MonoBehaviour
     public AudioClip successBreadClip;
     public AudioClip successMixedClip;
     public AudioClip failClip;
+    public AudioSource bgmAudioSource;
+    public AudioClip bgmClip;
 
     private float inputLockTimer;
     private bool gameEnded;
     private Vector2 swipeStart;
     private bool isSwipeTracking;
+    private Coroutine bgmPauseRoutine;
 
     private enum SwipeDirection
     {
@@ -133,6 +137,7 @@ public class GameController : MonoBehaviour
         }
 
         gameEnded = false;
+        PlayBGM();
     }
 
     private bool GetLeftInput()
@@ -179,6 +184,7 @@ public class GameController : MonoBehaviour
             gameManager.Miss(true);
             inputLockTimer = wrongInputLockSeconds;
             PlayFailSound();
+            PauseBGMForFail();
 
             item.MarkSorted();
             var removed = spawner.RemoveBottomAndShift();
@@ -309,5 +315,39 @@ public class GameController : MonoBehaviour
         }
 
         audioSource.PlayOneShot(failClip);
+    }
+
+    private void PlayBGM()
+    {
+        if (bgmAudioSource == null || bgmClip == null)
+        {
+            return;
+        }
+
+        bgmAudioSource.clip = bgmClip;
+        bgmAudioSource.loop = true;
+        bgmAudioSource.Play();
+    }
+
+    private void PauseBGMForFail()
+    {
+        if (bgmAudioSource == null || !bgmAudioSource.isPlaying)
+        {
+            return;
+        }
+
+        if (bgmPauseRoutine != null)
+        {
+            StopCoroutine(bgmPauseRoutine);
+        }
+
+        bgmPauseRoutine = StartCoroutine(BGMPauseRoutine());
+    }
+
+    private IEnumerator BGMPauseRoutine()
+    {
+        bgmAudioSource.Pause();
+        yield return new WaitForSeconds(wrongInputLockSeconds);
+        bgmAudioSource.UnPause();
     }
 }
