@@ -81,6 +81,17 @@ public class TitleScript : MonoBehaviour
 
         if (gameController != null)
         {
+            // ItemSpawner も起動
+            var spawner = gameController.GetComponent<ItemSpawner>();
+            if (spawner == null)
+            {
+                spawner = FindObjectOfType<ItemSpawner>();
+            }
+            if (spawner != null)
+            {
+                spawner.StartSpawning();
+            }
+            
             gameController.PlayBGM();
         }
     }
