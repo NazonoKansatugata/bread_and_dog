@@ -1497,6 +1497,8 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
+  plusTextPrefab: {fileID: 7206606241645662658, guid: 1ae583c1b99947148b87aca0443e162f, type: 3}
+  scoreBack: {fileID: 881989830}
   isStartGame: 0
   isResult: 0
 --- !u!4 &772109220
@@ -1636,7 +1638,7 @@ MonoBehaviour:
   audioSource: {fileID: 1430007753}
   successCorgiClip: {fileID: 8300000, guid: 62d1bd567f1fa214f90f0e8fbc16d683, type: 3}
   successBreadClip: {fileID: 8300000, guid: 5657b2bde75eed146ab8ae45297e1581, type: 3}
-  successMixedClip: {fileID: 8300000, guid: 8cb1a1d0aea1fdd4294f56419e5e48a3, type: 3}
+  successMixedClip: {fileID: 8300000, guid: 7d2542f87c86c5747a4c89425a682945, type: 3}
   failClip: {fileID: 8300000, guid: efc7ffb41138b5e4dad2741fe84862e2, type: 3}
 --- !u!4 &863081855
 Transform:
