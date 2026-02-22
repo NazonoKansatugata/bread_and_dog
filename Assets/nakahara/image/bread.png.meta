@@ -1,16 +1,10 @@
 fileFormatVersion: 2
-guid: f54e828275c3b40478236b72d4160df0
+guid: 1699112ba72d9a645ad26e4fa5fa7d12
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -913251877976209914
-    second: 10con_0
-  - first:
-      213: 2705595708147622525
-    second: 10con_1
-  - first:
-      213: -1823448888762072210
-    second: 10con_2
+      213: -4431494890709657585
+    second: bread_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -52,12 +46,12 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 100
+  spritePixelsToUnits: 500
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -102,43 +96,17 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 4
-    buildTarget: WebGL
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    ignorePlatformSupport: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 4
-    buildTarget: WindowsStoreApps
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    ignorePlatformSupport: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: 10con_0
+      name: bread_0
       rect:
         serializedVersion: 2
-        x: 16
-        y: 38
-        width: 304
-        height: 188
+        x: 70
+        y: 3
+        width: 1179
+        height: 1010
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -147,52 +115,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 60605ce614a7353f0800000000000000
-      internalID: -913251877976209914
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: 10con_1
-      rect:
-        serializedVersion: 2
-        x: 319
-        y: 38
-        width: 152
-        height: 159
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: d72e5f136f43c8520800000000000000
-      internalID: 2705595708147622525
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: 10con_2
-      rect:
-        serializedVersion: 2
-        x: 477
-        y: 27
-        width: 338
-        height: 206
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: e63814f85eec1b6e0800000000000000
-      internalID: -1823448888762072210
+      spriteID: f08da4f30ea2082c0800000000000000
+      internalID: -4431494890709657585
       vertices: []
       indices: 
       edges: []
@@ -201,7 +125,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 5e97eb03825dee720800000000000000
+    spriteID: 
     internalID: 0
     vertices: []
     indices: 
@@ -211,9 +135,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      10con_0: -913251877976209914
-      10con_1: 2705595708147622525
-      10con_2: -1823448888762072210
+      bread_0: -4431494890709657585
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

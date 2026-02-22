@@ -4,8 +4,9 @@ using UnityEngine;
 public class ItemSpawner : MonoBehaviour
 {
     public GameObject[] itemPrefabs;
+    public GameObject[] feverItemPrefabs;
     public Transform[] slots;
-    public int slotCount = 10;
+    public int slotCount = 8;
     public Transform slotRoot;
     public Vector2 slotSpacing = new Vector2(0f, -1f);
     public float spawnInterval = 1f;
@@ -76,9 +77,9 @@ public class ItemSpawner : MonoBehaviour
 
         for (var i = 0; i < slotItems.Length; i++)
         {
-            slotItems[i].gameObject.GetComponent<Renderer>().sortingOrder = i;
             if (slotItems[i] != null)
             {
+                slotItems[i].gameObject.GetComponent<Renderer>().sortingOrder = i;
                 continue;
             }
 
@@ -100,7 +101,6 @@ public class ItemSpawner : MonoBehaviour
 
     public SortableItem RemoveBottomAndShift()
     {
-        GameObject.Find("BeltConveyor").GetComponent<Animator>().SetTrigger("BeltConveyor");
         if (slotItems == null || slotItems.Length == 0)
         {
             return null;
@@ -108,6 +108,22 @@ public class ItemSpawner : MonoBehaviour
 
         var lastIndex = slotItems.Length - 1;
         var removed = slotItems[lastIndex];
+        
+        StartCoroutine(RemoveBottomAndShiftDelayed());
+        
+        return removed;
+    }
+
+    private IEnumerator RemoveBottomAndShiftDelayed()
+    {
+        yield return new WaitForSeconds(0.3f);
+
+        if (slotItems == null || slotItems.Length == 0)
+        {
+            yield break;
+        }
+
+        var lastIndex = slotItems.Length - 1;
         slotItems[lastIndex] = null;
 
         for (var i = lastIndex - 1; i >= 0; i--)
@@ -119,7 +135,16 @@ public class ItemSpawner : MonoBehaviour
         ApplySlotTransforms();
         UpdateSortableFlags();
         FillEmptySlots();
-        return removed;
+
+        var beltConveyor = GameObject.Find("BeltConveyor");
+        if (beltConveyor != null)
+        {
+            var animator = beltConveyor.GetComponent<Animator>();
+            if (animator != null)
+            {
+                animator.SetTrigger("BeltConveyor");
+            }
+        }
     }
 
     private void InitializeSlots()
@@ -202,22 +227,25 @@ public class ItemSpawner : MonoBehaviour
 
     private GameObject SelectRandomPrefab()
     {
-        if (itemPrefabs.Length <= 1)
+        bool isInFever = GameManager.instance != null && GameManager.instance.feverTimer > 0;
+        GameObject[] prefabsToUse = isInFever && feverItemPrefabs.Length > 0 ? feverItemPrefabs : itemPrefabs;
+
+        if (prefabsToUse.Length <= 1)
         {
-            return itemPrefabs[0];
+            return prefabsToUse[0];
         }
 
-        var normalCount = Mathf.Clamp(normalItemCount, 0, itemPrefabs.Length);
-        var mixedCount = itemPrefabs.Length - normalCount;
+        var normalCount = Mathf.Clamp(normalItemCount, 0, prefabsToUse.Length);
+        var mixedCount = prefabsToUse.Length - normalCount;
         var hasMixed = mixedCount > 0;
 
         if (hasMixed && Random.value < mixedSpawnChance)
         {
             var mixedIndex = normalCount + Random.Range(0, mixedCount);
-            return itemPrefabs[mixedIndex];
+            return prefabsToUse[mixedIndex];
         }
 
-        return normalCount > 0 ? itemPrefabs[Random.Range(0, normalCount)] : itemPrefabs[0];
+        return normalCount > 0 ? prefabsToUse[Random.Range(0, normalCount)] : prefabsToUse[0];
     }
 
     private void FillEmptySlots()

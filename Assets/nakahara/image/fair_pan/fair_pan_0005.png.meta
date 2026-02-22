@@ -1,16 +1,10 @@
 fileFormatVersion: 2
-guid: f54e828275c3b40478236b72d4160df0
+guid: 236b820bfa6837c4095852e080e3da40
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -913251877976209914
-    second: 10con_0
-  - first:
-      213: 2705595708147622525
-    second: 10con_1
-  - first:
-      213: -1823448888762072210
-    second: 10con_2
+      213: -3708588430076333264
+    second: fair_pan_0005_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -115,30 +109,17 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 4
-    buildTarget: WindowsStoreApps
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    ignorePlatformSupport: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: 10con_0
+      name: fair_pan_0005_0
       rect:
         serializedVersion: 2
-        x: 16
-        y: 38
-        width: 304
-        height: 188
+        x: 52
+        y: 54
+        width: 1212
+        height: 872
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -147,52 +128,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 60605ce614a7353f0800000000000000
-      internalID: -913251877976209914
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: 10con_1
-      rect:
-        serializedVersion: 2
-        x: 319
-        y: 38
-        width: 152
-        height: 159
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: d72e5f136f43c8520800000000000000
-      internalID: 2705595708147622525
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: 10con_2
-      rect:
-        serializedVersion: 2
-        x: 477
-        y: 27
-        width: 338
-        height: 206
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: e63814f85eec1b6e0800000000000000
-      internalID: -1823448888762072210
+      spriteID: 0333d27c872788cc0800000000000000
+      internalID: -3708588430076333264
       vertices: []
       indices: 
       edges: []
@@ -211,9 +148,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      10con_0: -913251877976209914
-      10con_1: 2705595708147622525
-      10con_2: -1823448888762072210
+      fair_pan_0005_0: -3708588430076333264
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
