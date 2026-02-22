@@ -50,7 +50,7 @@ public class ResultScript : MonoBehaviour
             GameManager.instance.timer = 0;
             GameManager.instance.combo = 0;
 
-            resultImage.DOAnchorPos(Vector2.zero, 2.5f).SetEase(Ease.OutCubic)
+            resultImage.DOAnchorPos(Vector2.zero, 0.5f).SetEase(Ease.OutCubic)
                 .OnComplete(() =>
                 {
                     if (titleScript != null)
@@ -78,7 +78,7 @@ public class ResultScript : MonoBehaviour
         }
 
         isClosing = true;
-        resultImage.DOAnchorPos(new Vector2(0f, 960f), 2.5f)
+        resultImage.DOAnchorPos(new Vector2(0f, 960f), 0.5f)
             .SetEase(Ease.OutBounce)
             .OnComplete(() =>
             {
