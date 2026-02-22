@@ -2,6 +2,7 @@ using UnityEngine;
 using DG.Tweening;
 using UnityEngine.UI;
 using unityroom.Api;
+using UnityEngine.SceneManagement;
 
 public class ResultScript : MonoBehaviour
 {
@@ -25,6 +26,10 @@ public class ResultScript : MonoBehaviour
     {
         resultImage = transform.Find("ResultBackGround").GetComponent<RectTransform>();
         resultImage.anchoredPosition = new Vector2(0f, 960f);
+        resultImage.gameObject.SetActive(false); // 初期は非表示
+        
+        isOpenResult = false;
+        isClosing = false;
 
         if (titleScript == null)
         {
@@ -34,6 +39,8 @@ public class ResultScript : MonoBehaviour
 
     void Update()
     {
+        if (GameManager.instance == null || resultImage == null) return;
+        
         if (GameManager.instance.isResult && !isOpenResult)
         {
             if (gameController != null && gameController.bgmAudioSource != null)
@@ -43,6 +50,9 @@ public class ResultScript : MonoBehaviour
 
             isOpenResult = true;
             isClosing = false;
+            
+            // リザルト画像を表示
+            resultImage.gameObject.SetActive(true);
             resultImage.Find("ResultImage").Find("ResultScoreText").gameObject.GetComponent<Text>().text = GameManager.instance.score.ToString();
             UnityroomApiClient.Instance.SendScore(1, GameManager.instance.score, ScoreboardWriteMode.HighScoreDesc);
 
@@ -50,14 +60,7 @@ public class ResultScript : MonoBehaviour
             GameManager.instance.timer = 0;
             GameManager.instance.combo = 0;
 
-            resultImage.DOAnchorPos(Vector2.zero, 0.5f).SetEase(Ease.OutCubic)
-                .OnComplete(() =>
-                {
-                    if (titleScript != null)
-                    {
-                        titleScript.ShowTitle();
-                    }
-                });
+            resultImage.DOAnchorPos(Vector2.zero, 0.5f).SetEase(Ease.OutCubic);
         }
 
         if (isOpenResult && !isClosing)
@@ -78,15 +81,9 @@ public class ResultScript : MonoBehaviour
         }
 
         isClosing = true;
-        resultImage.DOAnchorPos(new Vector2(0f, 960f), 0.5f)
-            .SetEase(Ease.OutBounce)
-            .OnComplete(() =>
-            {
-                GameManager.instance.ResetGame();
-            });
-        isOpenResult = false;
-        GameManager.instance.isResult = false;
-        GameManager.instance.isStartGame = false;
+        
+        // シーンを再読み込み（GameManagerは自動的にUI参照を更新）
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
     private SwipeDirection GetSwipeDirection()
