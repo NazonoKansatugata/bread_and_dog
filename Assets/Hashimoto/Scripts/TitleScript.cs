@@ -8,6 +8,7 @@ public class TitleScript : MonoBehaviour
     public float moveDistance = 15f;
     public float moveDuration = 0.5f;
     public Ease moveEase = Ease.OutCubic;
+    public GameController gameController;
 
     private Vector2 swipeStart;
     private bool isSwipeTracking;
@@ -76,6 +77,11 @@ public class TitleScript : MonoBehaviour
         if (GameManager.instance != null)
         {
             GameManager.instance.StartTimer();
+        }
+
+        if (gameController != null)
+        {
+            gameController.PlayBGM();
         }
     }
 

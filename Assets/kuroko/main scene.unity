@@ -388,6 +388,7 @@ MonoBehaviour:
   moveDistance: 15
   moveDuration: 0.5
   moveEase: 9
+  gameController: {fileID: 0}
 --- !u!1 &132506250
 GameObject:
   m_ObjectHideFlags: 0
@@ -734,11 +735,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c129ff1f63c944e4eb880efec5dda6c2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveTarget: {fileID: 0}
+  moveTarget: {fileID: 109537241}
   minSwipeDistance: 100
   moveDistance: 15
   moveDuration: 0.5
   moveEase: 9
+  gameController: {fileID: 863081854}
 --- !u!1 &273392064
 GameObject:
   m_ObjectHideFlags: 0
@@ -3505,7 +3507,7 @@ Canvas:
   m_AdditionalShaderChannelsFlag: 0
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_TargetDisplay: 0
 --- !u!114 &1645494363
 MonoBehaviour:
@@ -3521,6 +3523,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   minSwipeDistance: 80
   titleScript: {fileID: 209444858}
+  gameController: {fileID: 863081854}
 --- !u!224 &1645494364
 RectTransform:
   m_ObjectHideFlags: 0

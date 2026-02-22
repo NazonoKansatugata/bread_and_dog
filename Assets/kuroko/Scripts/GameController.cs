@@ -352,7 +352,7 @@ public class GameController : MonoBehaviour
         audioSource.PlayOneShot(failClip);
     }
 
-    private void PlayBGM()
+    public void PlayBGM()
     {
         if (bgmAudioSource == null || bgmClip == null)
         {
