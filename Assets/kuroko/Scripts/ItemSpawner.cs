@@ -33,14 +33,34 @@ public class ItemSpawner : MonoBehaviour
 
     public void StartSpawning()
     {
+        // 既に動いている場合は一度停止
         if (spawnRoutine != null)
         {
-            return;
+            StopCoroutine(spawnRoutine);
+            spawnRoutine = null;
         }
 
+        // 古いアイテムをクリア
+        ClearAllItems();
+        
         InitializeSlots();
         FillEmptySlots();
         spawnRoutine = StartCoroutine(SpawnLoop());
+    }
+
+    public void ClearAllItems()
+    {
+        if (slotItems != null)
+        {
+            for (var i = 0; i < slotItems.Length; i++)
+            {
+                if (slotItems[i] != null)
+                {
+                    Destroy(slotItems[i].gameObject);
+                    slotItems[i] = null;
+                }
+            }
+        }
     }
 
     public void StopSpawning()
