@@ -23,6 +23,12 @@ public class GameController : MonoBehaviour
     public int maxFreshScore = 100;
     public int minFreshScore = 20;
     public float maxFreshTime = 2.5f;
+    [Header("Audio")]
+    public AudioSource audioSource;
+    public AudioClip successCorgiClip;
+    public AudioClip successBreadClip;
+    public AudioClip successMixedClip;
+    public AudioClip failClip;
 
     private float inputLockTimer;
     private bool gameEnded;
@@ -42,6 +48,11 @@ public class GameController : MonoBehaviour
         if (gameManager == null)
         {
             gameManager = GameManager.instance;
+        }
+
+        if (audioSource == null)
+        {
+            audioSource = GetComponent<AudioSource>();
         }
     }
 
@@ -152,6 +163,7 @@ public class GameController : MonoBehaviour
             var score = CalculateFreshScore(item.FreshnessElapsed);
             ApplyFreshScore(score);
             Debug.Log($"Sort Success: {item.itemType}");
+            PlaySuccessSound(item.itemType);
 
             item.MarkSorted();
             var removed = spawner.RemoveBottomAndShift();
@@ -166,6 +178,7 @@ public class GameController : MonoBehaviour
             Debug.Log($"Sort Fail: expected {targetType}, got {item.itemType}");
             gameManager.Miss(true);
             inputLockTimer = wrongInputLockSeconds;
+            PlayFailSound();
 
             item.MarkSorted();
             var removed = spawner.RemoveBottomAndShift();
@@ -265,5 +278,36 @@ public class GameController : MonoBehaviour
         {
             return delta.y < 0f ? SwipeDirection.Down : SwipeDirection.None;
         }
+    }
+
+    private void PlaySuccessSound(SortableType itemType)
+    {
+        if (audioSource == null)
+        {
+            return;
+        }
+
+        var clip = itemType switch
+        {
+            SortableType.Corgi => successCorgiClip,
+            SortableType.Bread => successBreadClip,
+            SortableType.Mixed => successMixedClip,
+            _ => null
+        };
+
+        if (clip != null)
+        {
+            audioSource.PlayOneShot(clip);
+        }
+    }
+
+    private void PlayFailSound()
+    {
+        if (audioSource == null || failClip == null)
+        {
+            return;
+        }
+
+        audioSource.PlayOneShot(failClip);
     }
 }
