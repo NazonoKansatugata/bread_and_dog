@@ -15,7 +15,7 @@ public class GameController : MonoBehaviour
 
     [Header("Wrong Swipe Animation")]
     public float wrongMoveDuration = 0.3f;
-    public float wrongInputLockSeconds = 1f;
+    public float wrongInputLockSeconds = 3f;
     public float minSwipeDistance = 60f;
     public float sortedMoveDistance = 2f;
     public float sortedMoveDuration = 0.25f;
@@ -32,6 +32,11 @@ public class GameController : MonoBehaviour
     public AudioClip failClip;
     public AudioSource bgmAudioSource;
     public AudioClip bgmClip;
+
+    [Header("Fail Animation")]
+    public GameObject failCorgiAnimation;
+    public GameObject failBreadAnimation;
+    public GameObject failMixedAnimation;
 
     private float inputLockTimer;
     private bool gameEnded;
@@ -62,7 +67,36 @@ public class GameController : MonoBehaviour
 
     private void Start()
     {
+        InitializeFailAnimations();
         StartGame();
+    }
+
+    private void InitializeFailAnimations()
+    {
+        if (failCorgiAnimation != null)
+        {
+            failCorgiAnimation.SetActive(false);
+            SetSortingOrder(failCorgiAnimation, 15);
+        }
+        if (failBreadAnimation != null)
+        {
+            failBreadAnimation.SetActive(false);
+            SetSortingOrder(failBreadAnimation, 15);
+        }
+        if (failMixedAnimation != null)
+        {
+            failMixedAnimation.SetActive(false);
+            SetSortingOrder(failMixedAnimation, 15);
+        }
+    }
+
+    private void SetSortingOrder(GameObject obj, int order)
+    {
+        var canvas = obj.GetComponent<Canvas>();
+        if (canvas != null)
+        {
+            canvas.sortingOrder = order;
+        }
     }
 
     private void Update()
@@ -185,6 +219,7 @@ public class GameController : MonoBehaviour
             inputLockTimer = wrongInputLockSeconds;
             PlayFailSound();
             PauseBGMForFail();
+            ShowFailAnimation(item.itemType);
 
             item.MarkSorted();
             var removed = spawner.RemoveBottomAndShift();
@@ -342,6 +377,36 @@ public class GameController : MonoBehaviour
         }
 
         bgmPauseRoutine = StartCoroutine(BGMPauseRoutine());
+    }
+
+    private void ShowFailAnimation(SortableType itemType)
+    {
+        StartCoroutine(ShowFailAnimationRoutine(itemType));
+    }
+
+    private IEnumerator ShowFailAnimationRoutine(SortableType itemType)
+    {
+        GameObject animObject = null;
+        
+        if (itemType == SortableType.Corgi && failCorgiAnimation != null)
+        {
+            animObject = failCorgiAnimation;
+        }
+        else if (itemType == SortableType.Bread && failBreadAnimation != null)
+        {
+            animObject = failBreadAnimation;
+        }
+        else if (itemType == SortableType.Mixed && failMixedAnimation != null)
+        {
+            animObject = failMixedAnimation;
+        }
+
+        if (animObject != null)
+        {
+            animObject.SetActive(true);
+            yield return new WaitForSeconds(3f);
+            animObject.SetActive(false);
+        }
     }
 
     private IEnumerator BGMPauseRoutine()
