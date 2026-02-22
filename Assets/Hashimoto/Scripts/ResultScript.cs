@@ -40,7 +40,6 @@ public class ResultScript : MonoBehaviour
             isOpenResult = true;
             resultImage.Find("ResultImage").Find("ResultScoreText").gameObject.GetComponent<Text>().text = GameManager.instance.score.ToString();
             isClosing = false;
-            resultImage.Find("ResultScoreText").gameObject.GetComponent<Text>().text = GameManager.instance.score.ToString();
             UnityroomApiClient.Instance.SendScore(1, GameManager.instance.score, ScoreboardWriteMode.HighScoreDesc);
         }
 
