@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 0fd07988d7d1b594cb06c8df5ee70bea
+guid: c326699b32a239c418e913876938c234
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -8032536771043030921
-    second: pan_nolmal_0
+      213: -3629128921408924413
+    second: fair_pan_0004_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -46,12 +46,12 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 2
+  spriteMode: 1
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 500
+  spritePixelsToUnits: 100
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -113,13 +113,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: pan_nolmal_0
+      name: fair_pan_0004_0
       rect:
         serializedVersion: 2
-        x: 103
-        y: 60
-        width: 1079
-        height: 852
+        x: 7
+        y: 38
+        width: 1253
+        height: 979
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -128,8 +128,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 77887bc6d52b68090800000000000000
-      internalID: -8032536771043030921
+      spriteID: 3051353597eb2adc0800000000000000
+      internalID: -3629128921408924413
       vertices: []
       indices: 
       edges: []
@@ -138,7 +138,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 5e97eb03825dee720800000000000000
     internalID: 0
     vertices: []
     indices: 
@@ -148,7 +148,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      pan_nolmal_0: -8032536771043030921
+      fair_pan_0004_0: -3629128921408924413
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
