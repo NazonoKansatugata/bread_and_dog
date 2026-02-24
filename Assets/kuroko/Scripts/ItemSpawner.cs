@@ -1,4 +1,5 @@
 using System.Collections;
+using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEngine;
 
 public class ItemSpawner : MonoBehaviour
@@ -134,7 +135,7 @@ public class ItemSpawner : MonoBehaviour
 
     private IEnumerator RemoveBottomAndShiftDelayed()
     {
-        yield return new WaitForSeconds(0.3f);
+        
 
         if (slotItems == null || slotItems.Length == 0)
         {
@@ -150,9 +151,10 @@ public class ItemSpawner : MonoBehaviour
             slotItems[i] = null;
         }
 
-        ApplySlotTransforms();
         UpdateSortableFlags();
         FillEmptySlots();
+        yield return new WaitForSeconds(0.3f);
+        ApplySlotTransforms();
 
         var beltConveyor = GameObject.Find("BeltConveyor");
         if (beltConveyor != null)
@@ -214,6 +216,8 @@ public class ItemSpawner : MonoBehaviour
             var existing = slots[i].GetComponentInChildren<SortableItem>();
             slotItems[i] = existing;
         }
+
+        GameManager.instance.bottomPosition =  slots[slots.Length - 1].transform.position;
 
         ApplySlotTransforms();
         UpdateSortableFlags();
@@ -314,6 +318,7 @@ public class ItemSpawner : MonoBehaviour
             }
 
             item.transform.SetParent(slots[i], false);
+            item.gameObject.GetComponent<Renderer>().sortingOrder = i;
             item.transform.localPosition = Vector3.zero;
             item.transform.localRotation = Quaternion.identity;
         }

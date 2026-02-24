@@ -40,7 +40,7 @@ public class TitleScript : MonoBehaviour
             return;
         }
 
-        if (GetSwipeDirection() == SwipeDirection.Up)
+        if (GetSwipeDirection() == SwipeDirection.Up && GameManager.instance.TP == 1)
         {
             BeginStartSequence();
         }

@@ -59,7 +59,7 @@ public class CreditScript : MonoBehaviour
             }
         }
 
-        Debug.Log("TitlePosition: " + TitlePosition);
+        GameManager.instance.TP = TitlePosition;
     }
 
     private void BeginStartSequence()

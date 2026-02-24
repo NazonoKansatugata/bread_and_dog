@@ -7,7 +7,7 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
-    [HideInInspector] public int score;
+    public int score;
     [HideInInspector] public float timer;
     [HideInInspector] public int combo;
     [HideInInspector] public float feverTimer;
@@ -21,6 +21,12 @@ public class GameManager : MonoBehaviour
     GameObject resultCanvas;
 
     GameObject feverObject;
+
+    public bool isChangeImage;
+
+    public int TP;
+
+    public Vector3 bottomPosition;
 
     private void Awake()
     {
@@ -88,7 +94,10 @@ public class GameManager : MonoBehaviour
     {
         if(timer > 0)
         {
-            timer -= Time.deltaTime;
+            if (isStartGame)
+            {
+                timer -= Time.deltaTime;
+            }
         }
         else
         {
@@ -119,6 +128,10 @@ public class GameManager : MonoBehaviour
         {
             feverTimer = feverTime;
             combo = 0;
+        }
+        if(score >= 100)
+        {
+            isChangeImage = true;
         }
         SetText();
     }
@@ -157,7 +170,7 @@ public class GameManager : MonoBehaviour
             else if (feverTimer > 0)
             {
                 score += 3;
-                Instantiate(plusTextPrefab, scoreBack.position + new Vector3(0.5f, -1, 0), Quaternion.identity, scoreBack).GetComponent<Text>().text = "+3";
+                Instantiate(plusTextPrefab, scoreBack.position + new Vector3(0.5f, -1, 0), Quaternion.identity, scoreBack).GetComponent<Text>().text = "<color=red>+3</color>";
             }
         }
     }

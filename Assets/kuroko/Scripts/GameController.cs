@@ -44,6 +44,8 @@ public class GameController : MonoBehaviour
     private bool isSwipeTracking;
     private Coroutine bgmPauseRoutine;
 
+    public Transform animCanvas;
+
     private enum SwipeDirection
     {
         None,
@@ -167,7 +169,7 @@ public class GameController : MonoBehaviour
     {
         if (gameManager != null)
         {
-            gameManager.StartTimer();
+            //gameManager.StartTimer();
         }
 
         if (spawner != null)
@@ -181,11 +183,13 @@ public class GameController : MonoBehaviour
 
     private bool GetLeftInput()
     {
+        return false;
         return Input.GetKeyDown(leftKey) || Input.GetKeyDown(leftKeyAlt);
     }
 
     private bool GetRightInput()
     {
+        return false;
         return Input.GetKeyDown(rightKey) || Input.GetKeyDown(rightKeyAlt);
     }
 
@@ -391,27 +395,31 @@ public class GameController : MonoBehaviour
 
     private IEnumerator ShowFailAnimationRoutine(SortableType itemType)
     {
-        GameObject animObject = null;
+        //GameObject animObject = null;
         
         if (itemType == SortableType.Corgi && failCorgiAnimation != null)
         {
-            animObject = failCorgiAnimation;
+            Instantiate(failCorgiAnimation, animCanvas, false).SetActive(true);
+            //animObject = failCorgiAnimation;
         }
         else if (itemType == SortableType.Bread && failBreadAnimation != null)
         {
-            animObject = failBreadAnimation;
+            Instantiate(failBreadAnimation, animCanvas, false).SetActive(true);
+            //animObject = failBreadAnimation;
         }
         else if (itemType == SortableType.Mixed && failMixedAnimation != null)
         {
-            animObject = failMixedAnimation;
+            Instantiate(failMixedAnimation, animCanvas, false).SetActive(true);
+            //animObject = failMixedAnimation;
         }
 
-        if (animObject != null)
-        {
-            animObject.SetActive(true);
-            yield return new WaitForSeconds(3f);
-            animObject.SetActive(false);
-        }
+        yield return new WaitForSeconds(0);
+        //if (animObject != null)
+        //{
+        //    animObject.SetActive(true);
+        //    yield return new WaitForSeconds(3f);
+        //    animObject.SetActive(false);
+        //}
     }
 
     private IEnumerator BGMPauseRoutine()

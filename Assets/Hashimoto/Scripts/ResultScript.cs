@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 
 public class ResultScript : MonoBehaviour
 {
+    [SerializeField] Sprite _sprite;
     bool isOpenResult;
     RectTransform resultImage;
     public float minSwipeDistance = 80f;
@@ -54,6 +55,10 @@ public class ResultScript : MonoBehaviour
             // リザルト画像を表示
             resultImage.gameObject.SetActive(true);
             resultImage.Find("ResultImage").Find("ResultScoreText").gameObject.GetComponent<Text>().text = GameManager.instance.score.ToString();
+            if (GameManager.instance.isChangeImage)
+            {
+                resultImage.Find("ResultScoreImage").gameObject.GetComponent<Image>().sprite = _sprite;
+            }
             UnityroomApiClient.Instance.SendScore(1, GameManager.instance.score, ScoreboardWriteMode.HighScoreDesc);
 
             GameManager.instance.score = 0;
