@@ -1,4 +1,7 @@
+using DG.Tweening;
 using System.Collections;
+using Unity.VisualScripting;
+using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEngine;
 
 public class ItemSpawner : MonoBehaviour
@@ -134,7 +137,7 @@ public class ItemSpawner : MonoBehaviour
 
     private IEnumerator RemoveBottomAndShiftDelayed()
     {
-        yield return new WaitForSeconds(0.3f);
+        
 
         if (slotItems == null || slotItems.Length == 0)
         {
@@ -150,19 +153,12 @@ public class ItemSpawner : MonoBehaviour
             slotItems[i] = null;
         }
 
-        ApplySlotTransforms();
         UpdateSortableFlags();
         FillEmptySlots();
-
-        var beltConveyor = GameObject.Find("BeltConveyor");
-        if (beltConveyor != null)
-        {
-            var animator = beltConveyor.GetComponent<Animator>();
-            if (animator != null)
-            {
-                animator.SetTrigger("BeltConveyor");
-            }
-        }
+        //henkou
+        yield return new WaitForSeconds(0);
+        //henkou
+        ApplySlotTransforms();
     }
 
     private void InitializeSlots()
@@ -200,6 +196,7 @@ public class ItemSpawner : MonoBehaviour
             slot.SetParent(root, false);
             slot.localPosition = new Vector3(slotSpacing.x * i, slotSpacing.y * 12 * Mathf.Pow(0.8f, (slots.Length - i)), 0f);
             slot.localScale = Vector3.one * 1.5f * Mathf.Pow(0.8f, slots.Length - i);
+            slot.AddComponent<DOScaleUIScript>().deltaScale = 1.05f;
             slots[i] = slot;
         }
 
@@ -214,6 +211,8 @@ public class ItemSpawner : MonoBehaviour
             var existing = slots[i].GetComponentInChildren<SortableItem>();
             slotItems[i] = existing;
         }
+
+        
 
         ApplySlotTransforms();
         UpdateSortableFlags();
@@ -293,12 +292,13 @@ public class ItemSpawner : MonoBehaviour
 
         slotItems[slotIndex] = item;
         var target = slots[slotIndex];
-        item.transform.SetParent(target, false);
+        item.transform.SetParent(target, true);
+        item.transform.localScale = Vector3.one;
         item.transform.localPosition = Vector3.zero;
         item.transform.localRotation = Quaternion.identity;
     }
 
-    private void ApplySlotTransforms()
+    public void ApplySlotTransforms()
     {
         if (slots == null || slotItems == null)
         {
@@ -312,10 +312,31 @@ public class ItemSpawner : MonoBehaviour
             {
                 continue;
             }
-
-            item.transform.SetParent(slots[i], false);
-            item.transform.localPosition = Vector3.zero;
+            //Henkou
+            item.transform.SetParent(slots[i], true);
+            item.gameObject.GetComponent<Renderer>().sortingOrder = i;
+            item.transform.DOLocalMove(Vector3.zero, 0.3f)
+                .SetEase(Ease.InOutSine);
+            item.transform.DOScale(Vector3.one, 0.3f)
+                .SetEase(Ease.InOutSine);
             item.transform.localRotation = Quaternion.identity;
+            //Henkou
+
+
+            //item.transform.SetParent(slots[i], false);
+            //item.gameObject.GetComponent<Renderer>().sortingOrder = i;
+            //item.transform.localPosition = Vector3.zero;
+            //item.transform.localRotation = Quaternion.identity;
+        }
+        GameManager.instance.bottomPosition = slots[slots.Length - 1].transform.position;
+        var beltConveyor = GameObject.Find("BeltConveyor");
+        if (beltConveyor != null)
+        {
+            var animator = beltConveyor.GetComponent<Animator>();
+            if (animator != null)
+            {
+                animator.SetTrigger("BeltConveyor");
+            }
         }
     }
 

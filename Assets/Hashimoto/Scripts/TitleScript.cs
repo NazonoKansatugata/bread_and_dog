@@ -40,7 +40,7 @@ public class TitleScript : MonoBehaviour
             return;
         }
 
-        if (GetSwipeDirection() == SwipeDirection.Up)
+        if (GetSwipeDirection() == SwipeDirection.Up && GameManager.instance.TP == 1)
         {
             BeginStartSequence();
         }
@@ -56,9 +56,10 @@ public class TitleScript : MonoBehaviour
         isStarted = true;
         if (moveTarget != null)
         {
+            GameStart();
             moveTarget.DOMove(initialPosition + Vector3.up * moveDistance, moveDuration)
                 .SetEase(moveEase)
-                .OnComplete(OnTitleMoved);
+                .OnComplete(HideTitle);
         }
         else
         {
