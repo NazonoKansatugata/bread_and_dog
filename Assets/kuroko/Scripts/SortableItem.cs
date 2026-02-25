@@ -60,7 +60,12 @@ public class SortableItem : MonoBehaviour
         var dir = direction.normalized;
         var offset = new Vector3(dir.x, dir.y, 0f) * distance;
         transform.SetParent(null, true);
-        transform.DOMove(transform.position + offset, duration)
+        //if(transform.position != GameManager.instance.bottomPosition)
+        //{
+        //    transform.DOMove(GameManager.instance.bottomPosition, 0);
+        //}
+        transform.DOMove(GameManager.instance.bottomPosition, 0);
+        transform.DOMove(GameManager.instance.bottomPosition + offset, duration)
             .SetEase(Ease.OutQuad);
         Invoke("Despawn", duration);
     }

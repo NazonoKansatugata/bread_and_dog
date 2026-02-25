@@ -156,6 +156,9 @@ public class GameController : MonoBehaviour
             else if (GetRightInput())
             {
                 TrySort(SortableType.Corgi);
+            }else if (GetDownInput())
+            {
+                TrySort(SortableType.Mixed);
             }
         }
     }
@@ -183,14 +186,17 @@ public class GameController : MonoBehaviour
 
     private bool GetLeftInput()
     {
-        return false;
         return Input.GetKeyDown(leftKey) || Input.GetKeyDown(leftKeyAlt);
     }
 
     private bool GetRightInput()
     {
-        return false;
         return Input.GetKeyDown(rightKey) || Input.GetKeyDown(rightKeyAlt);
+    }
+
+    private bool GetDownInput()
+    {
+        return Input.GetKeyDown(KeyCode.DownArrow) || Input.GetKeyDown(KeyCode.S);
     }
 
     private void TrySort(SortableType targetType)

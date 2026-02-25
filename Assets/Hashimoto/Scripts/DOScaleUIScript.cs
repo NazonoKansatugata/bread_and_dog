@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class DOScaleUIScript : MonoBehaviour
 {
-    [SerializeField] float deltaScale;
+    [SerializeField] public float deltaScale;
     float scaleTime;
     Vector3 maxScale;
     // Start is called once before the first execution of Update after the MonoBehaviour is created

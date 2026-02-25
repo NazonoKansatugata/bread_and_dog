@@ -13,7 +13,8 @@ public class GameManager : MonoBehaviour
     [HideInInspector] public float feverTimer;
     Text scoreText, timerText;
     Image comboImage;
-    [SerializeField] int maxCombo, TimeLimit, feverTime;
+    [SerializeField] int maxCombo, feverTime;
+    [SerializeField] float TimeLimit;
     [SerializeField] Sprite[] comboSprites = new Sprite[11];
     [SerializeField] GameObject plusTextPrefab;
     [SerializeField] Transform scoreBack;
@@ -180,7 +181,7 @@ public class GameManager : MonoBehaviour
         score = 0;
         combo = 0;
         feverTimer = 0;
-        timer = 30;
+        timer = TimeLimit;
         isStartGame = true;
         isResult = false;
         SetText();
